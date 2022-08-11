@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply box-border;
+  }
+  h1 {
+    @apply text-4xl;
+  }
+  p {
+    @apply text-xl;
+  }
+  .solid-border {
+    @apply border-solid border-[#ccc] border rounded-sm;
+  }
+}

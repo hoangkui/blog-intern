@@ -1,0 +1,201 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  email: String!
+  username: String!
+  bio: String!
+  image: String!
+  createdAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  user: User
+  accessToken: String
+  refreshToken: String
+}
+
+interface MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String
+}
+
+type Profile {
+  _id: ID!
+  username: String!
+  bio: String!
+  image: String!
+  following: Boolean!
+  follow: [Profile!]!
+  countFollowers: Float!
+  countFollowing: Float!
+  countArticles: Float!
+  followed: [Profile!]!
+  createdAt: DateTime!
+}
+
+type ProfileResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  profile: Profile
+}
+
+type ProfileListResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  profiles: [Profile!]
+}
+
+type ArticleResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  article: Article
+}
+
+type ArticleListResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  count: Float!
+  articles: [Article!]
+}
+
+type PopularTagResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  tag: [String!]
+}
+
+type CommentsResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  comments: [Comment!]
+}
+
+type CommentResponse implements MutationResponse {
+  code: Float!
+  success: Boolean!
+  message: String!
+  type: String!
+  comment: Comment
+}
+
+type Comment {
+  _id: ID!
+  body: String!
+  author: Profile!
+  createdAt: DateTime!
+}
+
+type Article {
+  _id: ID!
+  title: String!
+  description: String!
+  slug: String!
+  body: String!
+  author: Profile!
+  tagList: [String!]!
+  favorited: [Profile!]!
+  comments: [Comment!]!
+  favoriting: Boolean!
+  countCmt: Float!
+  saved: Boolean!
+  createdAt: DateTime!
+  moreFromAuthor: [Article!]
+  img: String!
+  readingTime: Float!
+  publishAt: DateTime!
+  isAuthor: Boolean!
+  isPublish: Boolean!
+}
+
+type Query {
+  getCurrentUser: UserResponse!
+  getPopularTags: PopularTagResponse!
+  getListTag: PopularTagResponse!
+  getListArticlesByTag(tag: String!, limit: Float!, offset: Float!): ArticleListResponse!
+  getListArticlesByAuthor(author: String!, limit: Float!, offset: Float!): ArticleListResponse!
+  getFavoritedArticles(limit: Float!, offset: Float!): ArticleListResponse!
+  getListArticles(limit: Float!, offset: Float!): ArticleListResponse!
+  getArticlesForYourFeed(limit: Float!, offset: Float!): ArticleListResponse!
+  getArticlesPending: ArticleListResponse!
+  getArticles(slug: String!): ArticleResponse!
+  getSavedArticles: ArticleListResponse!
+  getComment(slug: String!): CommentsResponse!
+  getProfile(username: String!): ProfileResponse!
+  getProfileById(id: String!): ProfileResponse!
+  getSuggestion: ProfileListResponse!
+}
+
+type Mutation {
+  updateUser(input: UpdateUserInput!): UserResponse!
+  changePassword(oldpass: String!, newpass: String!): UserResponse!
+  forgotPassword(mail: String!): UserResponse!
+  resetPassword(pass: String!, token: String!): UserResponse!
+  signUp(input: SignUpInput!): UserResponse!
+  signIn(input: SignInInput!): UserResponse!
+  refreshToken(refreshToken: String!): UserResponse!
+  LogOut(rToken: String!): UserResponse!
+  createArticle(input: createArticleInput!): ArticleResponse!
+  updateArticle(input: updateArticleInput!, slug: String!): ArticleResponse!
+  deleteArticle(slug: String!): ArticleResponse!
+  favoriteArticle(slug: String!): ArticleResponse!
+  saveArticle(id: String!): ArticleResponse!
+  addComment(slug: String!, body: String!): CommentResponse!
+  deleteComment(slug: String!, idCmt: String!): CommentResponse!
+  followUser(username: String!): ProfileResponse!
+}
+
+input UpdateUserInput {
+  email: String
+  bio: String
+  image: String
+  username: String
+}
+
+input SignUpInput {
+  email: String!
+  username: String!
+  password: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input createArticleInput {
+  slug: String!
+  title: String!
+  description: String!
+  body: String!
+  tagList: String!
+  publishAt: DateTime
+}
+
+input updateArticleInput {
+  title: String
+  description: String
+  body: String
+  tagList: String
+  publishAt: DateTime
+}
+
+type Subscription {
+  commentAdded(slug: String!): CommentResponse!
+}
