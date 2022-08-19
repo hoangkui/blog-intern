@@ -51,5 +51,5 @@ export class updateArticleInput {
   tagList: string;
 
   @Field({ nullable: true })
-  publishAt: Date;
+  publishAt: Date | undefined;
 }

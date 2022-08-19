@@ -303,14 +303,14 @@ export class ArticleService {
         message: 'You are not allowed',
       };
     }
-    if (new Date(publishAt).getTime() < new Date().getTime()) {
+    if (publishAt && new Date(publishAt).getTime() < new Date().getTime()) {
       return {
         code: 204,
         success: false,
         message: 'Invalid time',
       };
     }
-    if (new Date(res.publishAt).getTime() < new Date().getTime()) {
+    if (publishAt && new Date(res.publishAt).getTime() < new Date().getTime()) {
       return {
         code: 204,
         success: false,
